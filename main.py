@@ -61,8 +61,45 @@ class MnistDigits:
         print('Loss {}\t\tAccuracy {}'.format(self.test_loss, self.test_acc))
 
     def viz_samples(self):
-        for i in range(20):
+        for i in range(10):
             digit = self.train_images[i]
+            plt.imshow(digit, cmap=plt.cm.binary)
+            plt.show()
+
+    def viz_sample_slicing(self):
+            # Full digit
+            digit = self.train_images[7]
+            print(digit.shape)
+            plt.imshow(digit, cmap=plt.cm.binary)
+            plt.show()
+
+            # Tensor slicing for top left 15x15
+            digit = self.train_images[7, :15, :15]
+            print(digit.shape)
+            plt.imshow(digit, cmap=plt.cm.binary)
+            plt.show()
+
+            # Tensor slicing for top right 15x15
+            digit = self.train_images[7, :15, 15:]
+            print(digit.shape)
+            plt.imshow(digit, cmap=plt.cm.binary)
+            plt.show()
+
+            # Tensor slicing for bottom left 15x15
+            digit = self.train_images[7, 15:, :15]
+            print(digit.shape)
+            plt.imshow(digit, cmap=plt.cm.binary)
+            plt.show()
+
+            # Tensor slicing for bottom right 15x15
+            digit = self.train_images[7, 15:, 15:]
+            print(digit.shape)
+            plt.imshow(digit, cmap=plt.cm.binary)
+            plt.show()
+
+            # Tensor slicing for middle
+            digit = self.train_images[7, 7:-7, 7:-7]
+            print(digit.shape)
             plt.imshow(digit, cmap=plt.cm.binary)
             plt.show()
 
@@ -73,6 +110,8 @@ def main():
         mnistdigits.load_data()
     with timer('Visualize Samples'):
         mnistdigits.viz_samples()
+    with timer('Vis Sample Slicing'):
+        mnistdigits.viz_sample_slicing()
     with timer('Building Network'):
         mnistdigits.build_network()
     with timer('Evaluating Network'):
