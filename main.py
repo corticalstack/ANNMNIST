@@ -6,7 +6,6 @@ import time
 from contextlib import contextmanager
 
 
-
 @contextmanager
 def timer(title):
     t0 = time.time()
