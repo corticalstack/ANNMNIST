@@ -2,6 +2,7 @@ from keras.datasets import mnist
 from keras import models
 from keras import layers
 from keras.utils import to_categorical
+import matplotlib.pyplot as plt
 import time
 from contextlib import contextmanager
 
@@ -26,7 +27,9 @@ class MnistDigits:
 
     def load_data(self):
         (self.train_images, self.train_labels), (self.test_images, self.test_labels) = mnist.load_data()
-        print(self.train_images.shape)
+        print(self.train_images.ndim)   # 3D tensor
+        print(self.train_images.dtype)  # Data type uint3
+        print(self.train_images.shape)  # array of 60000 matrices of 28x28 integers
         print(len(self.train_labels))
         print(self.test_images.shape)
         print(len(self.test_labels))
@@ -57,11 +60,19 @@ class MnistDigits:
         self.test_loss, self.test_acc = self.network.evaluate(self.test_images, self.test_labels)
         print('Loss {}\t\tAccuracy {}'.format(self.test_loss, self.test_acc))
 
+    def viz_samples(self):
+        for i in range(20):
+            digit = self.train_images[i]
+            plt.imshow(digit, cmap=plt.cm.binary)
+            plt.show()
+
 
 def main():
     mnistdigits = MnistDigits()
     with timer('Loading Data'):
         mnistdigits.load_data()
+    with timer('Visualize Samples'):
+        mnistdigits.viz_samples()
     with timer('Building Network'):
         mnistdigits.build_network()
     with timer('Evaluating Network'):
